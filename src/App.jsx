@@ -4,6 +4,7 @@ import dummySongs from './components/DummySongs';
 import './styles/App.scss';
 import { MusicContext } from './MusicProvider';
 import SongList from './components/SongList';
+import logo from "./assets/Logo.svg"
 
 function App() {
   const { setCurrentSong } = useContext(MusicContext);
@@ -18,7 +19,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    setSongs(dummySongs); 
+    setSongs(dummySongs);
   }, []);
 
   const playSong = (song) => {
@@ -47,20 +48,59 @@ function App() {
     return filteredSongs;
   };
 
+  const getNameFromTab = (tab) => {
+    switch (tab) {
+      case 'forYou':
+        return 'For You';
+      case 'toptracks':
+        return 'Top Tracks';
+      case 'favourites':
+        return 'Favourites';
+      case 'recentlyPlayed':
+        return 'Recently Played';
+    }
+  };
+
   return (
-    <div className="music-player">
+    <div className="music-player"
+    >
+
       <aside className="sidebar">
-        <h2>Spotify</h2>
+        <h2><img src={logo} alt="logo" /></h2>
         <ul>
-          <li onClick={() => setCurrentTab('forYou')}>For You</li>
-          <li onClick={() => setCurrentTab('recentlyPlayed')}>Recently Played</li>
-          <li onClick={() => setCurrentTab('favourites')}>Favourites</li>
+          <li
+            onClick={() => setCurrentTab('forYou')}
+            className={currentTab === 'forYou' ? 'active' : ''}
+          >
+            For You
+          </li>
+          <li
+            onClick={() => setCurrentTab('toptracks')}
+            className={currentTab === 'toptracks' ? 'active' : ''}
+          >
+            Top Tracks
+          </li>
+          <li
+            onClick={() => setCurrentTab('favourites')}
+            className={currentTab === 'favourites' ? 'active' : ''}
+          >
+            Favourites
+          </li>
+          <li
+            onClick={() => setCurrentTab('recentlyPlayed')}
+            className={currentTab === 'recentlyPlayed' ? 'active' : ''}
+          >
+            Recently Played
+          </li>
         </ul>
       </aside>
+
+
       <main>
+        <h2>{getNameFromTab(currentTab)}</h2>
         <input
           type="text"
-          placeholder="Search songs..."
+          placeholder="Search Song, Artist"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -71,6 +111,7 @@ function App() {
           toggleFavourite={toggleFavourite}
         />
       </main>
+
       <Player />
     </div>
   );
