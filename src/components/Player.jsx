@@ -15,7 +15,6 @@ const Player = () => {
     }
     setIsPlaying(!isPlaying); 
   };
-
   
   if (!currentSong) return <div className="player">Select a song to play</div>;
 
